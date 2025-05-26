@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculateur du Cycle Menstruel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Calculateur du Cycle Menstruel</h2>
+    <p>Entrez les détails ci-dessous pour calculer votre cycle menstruel :</p>
+
+    <form id="cycleForm">
+        <label for="lastPeriod">Date de vos dernières règles :</label>
+        <input type="date" id="lastPeriod" required>
+
+        <label for="cycleLength">Durée moyenne du cycle (en jours) :</label>
+        <input type="number" id="cycleLength" required min="21" max="35">
+
+        <button type="button" onclick="calculateCycle()">Calculer</button>
+    </form>
+
+    <div class="result" id="result"></div>
+   
+</div>
+
+
+<script src="script.js"></script>
+</body>
+</html>
+
