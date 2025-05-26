@@ -32,7 +32,7 @@ function calculateCycle() {
     const currentDate = new Date(); 
     const differenceInMill = currentDate - lastPeriod;
     const differenceInDay = Math.floor(differenceInMill/ 86400000);
-    console.log(differenceInDay);
+
     //Step 2: Determine Progress Percentage
     const progressInPercentage = Math.min(Math.round((differenceInDay/cycleLength )*100),100);
     //Validation
