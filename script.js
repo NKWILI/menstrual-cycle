@@ -32,12 +32,25 @@ function calculateCycle() {
     const currentDate = new Date(); 
     const differenceInMill = currentDate - lastPeriod;
     const differenceInDay = Math.floor(differenceInMill/ 86400000);
-
-    //Step 2: Determine Progress Percentage
+    const currentCycleDay = differenceInDay + 1;
     const progressInPercentage = Math.min(Math.round((differenceInDay/cycleLength )*100),100);
+    
+    // Normalize dates to ignore time for comparison
+    function normalizeDate(date) {
+        return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    }
+    const normCurrentDate = normalizeDate(currentDate);
+    const normFertileStart = normalizeDate(fertileStart);
+    const normFertileEnd = normalizeDate(fertileEnd);
+    const isInFertileWindow = normCurrentDate >= normFertileStart && normCurrentDate <= normFertileEnd;
+    const fertileAlertHTML = isInFertileWindow 
+      ? `<div class="fertility-alert">🌸 Vous êtes dans votre fenêtre fertile aujourd’hui !</div>`
+      : "";
+
+
     //Validation
     console.log(`Cycle Progress: ${progressInPercentage}%`);
-
+    
     // Affichage des résultats
     document.getElementById('result').innerHTML = `
         <h3>Résultats</h3>
@@ -45,10 +58,17 @@ function calculateCycle() {
         <p><strong>Jour d'ovulation :</strong> ${ovulation.toLocaleDateString('fr-FR', options)}</p>
         <p><strong>Fenêtre fertile :</strong> du ${fertileStart.toLocaleDateString('fr-FR', options)} au ${fertileEnd.toLocaleDateString('fr-FR', options)}</p>
         <p><strong>Progression du cycle :</strong> ${progressInPercentage}%</p>
+        <p><strong>Jour actuel: </strong>${currentCycleDay} / ${cycleLength}</p>
+        ${fertileAlertHTML}
         <div class="progress-bar-container">
         <div class="progress-bar-fill" id="cycleProgressBar"></div>
         </div>
+   
         `;
+        if(isInFertileWindow){
+            const audio = document.getElementById("fertility-sound")
+            audio.play()
+        }
         document.getElementById('cycleProgressBar').style.width = `${progressInPercentage}%`;
         if( progressInPercentage <= 30){
             document.getElementById("cycleProgressBar").style.background = "#28a745"; 
