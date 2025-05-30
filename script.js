@@ -107,3 +107,40 @@ function clearHistory() {
     </div>
   `;
 }
+
+//graphic
+
+function drawChart(data) {
+  const labels = data.map((item, index) => `Cycle ${index + 1}`);
+  const cycleLengths = data.map(item => item.cyclelength);
+
+  const ctx = document.getElementById('cycleChart')?.getContext('2d');
+  if (!ctx) return;
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Durée du Cycle (jours)',
+        data: cycleLengths,
+        backgroundColor: 'rgba(214, 51, 132, 0.2)',
+        borderColor: '#d63384',
+        borderWidth: 2,
+        fill: true,
+        tension: 0.3
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: false,
+          suggestedMin: 21,
+          suggestedMax: 35
+        }
+      }
+    }
+  });
+}
+drawChart(storedCycle);
